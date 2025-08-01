@@ -155,10 +155,9 @@ btnClear.addEventListener("click",function(event){
     productosTotal.innerText = totalEnProductos;
     precioTotal.innerText = new Intl.NumberFormat("es-MX", 
                     { style: "currency", currency: "MXN" }).format(costoTotal);
+    
     datos = new Array(); // reiniciar el arreglo de datos
     //reiniciar el localstorage
-
-
 });
 
 
