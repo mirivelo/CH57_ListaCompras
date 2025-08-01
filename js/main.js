@@ -128,6 +128,72 @@ if(txtName.value.length<3){
     }//isvalid
 });
 
+btnClear.addEventListener("click",function(event){
+    event.preventDefault();
+//1.eliminar el localstorage
+    localStorage.removeItem("datos");
+    localStorage.removeItem("resumen");
+//2. limpiar la tabla
+    cuerpoTabla.innerHTML = "";
+//3. limpiar los campos
+    txtName.value = "";
+    txtNumber.value ="";
+    txtName.focus();
+//4. limpiar el borde de los campos
+    txtName.style.border = "";
+    txtNumber.style.border = "";
+
+//5. limpiar los alerts
+    alertValidacionesTexto.innerHTML = "";
+    alertValidaciones.style.display = "none";
+//6. limpiar el resumen
+    contador = 0;
+    productosTotal = 0;
+    precioTotal = 0;
+
+    contadorProductos.innerText = contador;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX", 
+                    { style: "currency", currency: "MXN" }).format(costoTotal);
+    datos = new Array(); // reiniciar el arreglo de datos
+    //reiniciar el localstorage
+
+
+});
+
+
+// pantalla
+
+window.addEventListener("load", function(event){
+    event.preventDefault();
+
+    if(this.localStorage.getItem("datos")!=null){
+        datos = JSON.parse(this.localStorage.getItem("datos"));
+        datos.forEach( (dato)=> {
+            let row = ` <tr>
+                <td>${dato.contador}</td>
+                <td>${dato.nombre}</td>
+                <td>${dato.cantidad}</td>
+                <td>${dato.precio}</td>
+            </tr>`;
+cuerpoTabla.insertAdjacentHTML("beforeend", row);
+        });
+    }
+    //Obtenemos el resumen del localstorage
+    if(this.localStorage.getItem("resumen")!=null){
+        let resumen = JSON.parse(this.localStorage.getItem("resumen"));
+        costoTotal = resumen.costoTotal;
+        totalEnProductos = resumen.totalEnProductos;
+        contador = resumen.contador;
+}
+    contadorProductos.innerText= contador;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX", 
+                    { style: "currency", currency: "MXN" }).format(costoTotal);
+
+
+});
+
 /**Funcion para generar precios de manera aleatoria
  * con un valor entre 0 y 100
  *Precio aleatorio   
